@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Newtifry</string>
+    <string name="master_enable_checkbox">Enable the service</string>
+    <string name="master_enable_checkbox_summary">When off, no notifications are shown at all.</string>
+    <string name="choose_notification_tone">Select Notification Tone</string>
+    <string name="choose_notification_tone_summary">Choose the notification tone.</string>
+    <string name="read_all_sms_checkbox">Read out all messages</string>
+    <string name="read_all_warning">Warning: reading out all SMS messages can be embarrassing!</string>
+    <string name="announce_sender">Announce the sender</string>
+    <string name="announce_sender_summary">Announce who sent the SMS before the message is read out.</string>
+    <string name="stop_reading_now">Stop Reading now</string>
+    <string name="stop_reading_now_summary">Immediately stop reading out the current message.</string>
+    <string name="test_account">Choose a test account</string>
+    <string name="test_account_summary">Choose a test account, and then register the device with the backend.</string>
+    <string name="edit_whitelist">Edit whitelist</string>
+    <string name="edit_whitelist_summary">Choose which contacts are read out.</string>
+	<string name="delay_readout">Delay reading</string>
+	<string name="delay_readout_summary" formatted="false">Delay reading the message for %d second%s.</string>
+    <string name="advanced_settings">Advanced Settings</string>
+    <string name="advanced_settings_summary">Change advanced settings.</string>
+    <string name="language">Choose Language</string>
+    <string name="language_summary">Choose the language that the TTS uses to read out messages.</string>
+    <string name="read_speed">Speech Rate</string>
+    <string name="read_speed_summary">Select how fast to read the message.</string>
+    <string name="preview">Preview</string>
+    <string name="preview_summary">Preview the selected language and speed settings.</string>
+    <string name="preview_speak">We will newtifry you.</string>
+    <string name="shakestop">Enable Shake to Stop</string>
+    <string name="shakestop_summary">Enable the ability to shake the phone to stop reading.</string>
+    <string name="shakethreshhold">Shake Threshold</string>
+    <string name="shakethreshhold_summary">Currently %d, default 1500.</string>
+    <string name="shakewaittime">Shake Wait Time</string>
+    <string name="shakewaittime_summary">Wait %d seconds for a shake event.</string>
+    <string name="speakformat">TTS Output format</string>
+    <string name="speakformat_summary" formatted="false">%s is source, %m is message, %t is title, %a is account. Default %t %m.</string>
+    <string name="tts_audio_stream_title">TTS Audio Stream</string>
+    <string name="tts_auto_stream_summary">The audio stream used to play TTS output.</string>
+    <string name="notification_settings">Notification settings</string>
+    <string name="notification_settings_summary">Change how notifications are delivered.</string>
+    <string name="play_ringtone">Play ringtone</string>
+    <string name="play_ringtone_summary">Play a ringtone when a notification comes in.</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="vibrate_summary">Vibrate when a notification comes in.</string>
+    <string name="led_flash">Flash the LED</string>
+    <string name="led_flash_summary">Flash the LED for a notification.</string>
+    <string name="fast_led_flash">Fast LED flash</string>
+    <string name="fast_led_flash_summary">Use a fast LED flash - useful for phones like the G2 which have short flashes.</string>
+    <string name="speak_message">Speak the message</string>
+    <string name="speak_message_summary">Speak out the message using Text to Speech.</string>
+    <string name="notification">NOTIFICATION</string>
+    
+    <string name="disable_all_notifications">Disable all notifications</string>
+    <string name="enable_all_notifications">Enable all notifications</string>
+    <string name="recent_messages">Recent Messages</string>
+    <string name="accounts_and_sources">Accounts and sources</string>
+    
+    <string name="enabled_on_server">Enabled on server</string>
+    <string name="enabled_on_server_summary">When off, the server will not attempt to deliver the message.</string>
+    <string name="enabled_locally">Enabled locally</string>
+    <string name="enabled_locally_summary">When off, the device will receive the message but do nothing else.</string>
+    <string name="email_source_key">Email source key</string>
+    <string name="messages">Messages</string>
+    
+    <string name="settings_heading">Settings</string>
+    <string name="choose_accounts_heading">Choose accounts</string>
+    <string name="sources_heading">Manage sources</string>
+    <string name="editor_heading">Edit source</string>
+    <string name="messages_heading">Recent messages</string>
+    <string name="message_detail_heading">Message</string>
+    
+    <string name="no_accounts">No Google accounts on this phone. You will need at least one to be able to use this program.</string>
+    <string name="accounts_help">The checkbox registers or deregisters that account with the backend server. Then, tap the account name to manage sources.</string>
+    
+    <string name="no_sources">There are no sources for this account yet. Press menu to add a new one.</string>
+    
+    <string name="no_recent_messages">No recent messages.</string>
+    
+    <string name="registering_with_server">Registering with server...</string>
+    <string name="deregistering_with_server">De-registering with server...</string>
+    <string name="registering_with_server_complete" formatted="false">Registered %s with the server.</string>
+    <string name="deregistering_with_server_complete" formatted="false">De-registered %s with the server.</string>
+    <string name="refresh_ids">Refresh GCM IDs</string>
+    <string name="background_refreshing">Refreshing GCM IDs for enabled accounts is now occuring in the background.</string>
+    
+    <string name="create_source">Create Source</string>
+    <string name="refresh_sources_server">Refresh from Server</string>
+    <string name="refresh_sources_success">Successfully refreshed sources list.</string>
+    <string name="create_source_message">Enter a title for the new source</string>
+    <string name="create_source_server_waiting">Please wait, creating the source on the server...</string>
+    <string name="create_source_server_complete">Successfully created the source on the server.</string>
+    <string name="loading_sources_from_server">Loading source list from server...</string>
+    <string name="source_disabled_on_server">Source is disabled on the server.</string>
+    <string name="delete_source">Confirm delete source</string>
+    <string name="delete_source_message">If you delete this source, no more notifications can be sent to it. This can not be undone.</string>
+    
+    <string name="source_saving_to_server">Saving the source to the server...</string>
+    <string name="source_deleting_from_server">Deleting the source from the server...</string>
+    <string name="source_testing_with_server">Asking server to send test message...</string>
+    <string name="source_key_heading">Source key</string>
+    <string name="source_key_email_subject">My Newtifry source key</string>
+    <string name="source_key_email_body">The newtifry source key you will need is %s - Thanks!</string>
+    <string name="source_save_success">Source saved successfully.</string>
+    <string name="source_delete_success">Source deleted successfully.</string>
+    <string name="source_test_success">Successfully added a test message on the server.</string>
+    
+    <string name="source_editor_title">Title</string>
+    <string name="source_notification_settings_summary">Change notifications for this source.</string>
+    <string name="source_test_summary">Test this source via the server.</string>
+    <string name="source_message_summary">View the recent messages for this source.</string>
+    <string name="source_delete_summary">Delete this source.</string>
+    <string name="source_global_notifications">Use default settings</string>
+    <string name="source_global_notifications_summary">Use the default settings from the main settings for Newtifry.</string>
+    <string name="source_email_key">Email source key</string>
+    <string name="source_email_key_summary">Send the source key by email to someone.</string>
+    
+    <string name="messages_all_title">All messages</string>
+    <string name="messages_source_title" formatted="false">Messages - %s</string>
+    
+    <string name="need_tts_data_installed">You don\'t have the TTS data installed - redirecting you to the data.</string>
+    
+    <string name="health_check_disabled">All notifications are turned off.</string>
+    <string name="health_check_placeholder">Health Check information will go here.</string>
+    <string name="health_check_all_ok">Health check passed.</string>
+    <string name="health_error_no_c2dm_id">No GCM ID. Please wait or restart the app.</string>
+    <string name="health_error_c2dm_error">Error getting GCM ID: </string>
+    <string name="health_error_no_accounts">No accounts registered for use. Select one to be used.</string>
+    <string name="health_error_no_sources" formatted="false">The account %s has no sources. Refresh this from the server if you think this is an error.</string>
+    <string name="health_error_disabled_server_sources" formatted="false">The account %s has %d server disabled source%s.</string>
+    <string name="health_error_disabled_local_sources" formatted="false">The account %s has %d local disabled source%s.</string>
+    <string name="health_error_account_wrong_id" formatted="false">The account %s does not have the latest GCM ID. Refresh it from the accounts screen.</string>
+    
+    <string name="add_contact">Add Contact</string>
+    <string name="add_raw">Add string Contact</string>
+    <string name="add_raw_message">Enter the contact string, eg \'Google\'.</string>
+    <string name="add">Add</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="delete_all">Delete all</string>
+    <string name="delete_read">Delete seen messages</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="settings">Settings</string>
+    <string name="save">Save</string>
+    <string name="test">Test</string>
+    <string name="mark_all_as_seen">Mark all as Seen</string>
+    <string name="ok">Ok</string>
+    <string name="message_list">Message List</string>
+    
+    <string name="ifContactEnabled">Enabled</string>
+    <string name="ifContactNotEnabled">Not enabled</string>
+    
+    <string name="stopReadingNow">stopReadingNow</string>
+    <string name="testAccount">testAccount</string>
+    <string name="masterEnable">masterEnable</string>
+    <string name="choosenNotification">choosenNotification</string>
+    <string name="readAll">readAll</string>
+    <string name="announceSender">announceSender</string>
+    <string name="editWhitelist">editWhitelist</string>
+    <string name="ttsLanguage">ttsLanguage</string>
+    <string name="ttsSpeed">ttsSpeed</string>
+    <string name="previewSpeech">previewSpeech</string>
+    <string name="delayReadingTime">delayReadingTime</string>
+    <string name="shakeToStop">shakeToStop</string>
+    <string name="shakeThreshold">shakeThreshold</string>
+    <string name="shakeWaitTime">shakeWaitTime</string>
+    <string name="playRingtone">playRingtone</string>
+    <string name="vibrateNotify">vibrateNotify</string>
+    <string name="ledFlash">ledFlash</string>
+    <string name="fastLedFlash">fastLedFlash</string>
+    <string name="speakMessage">speakMessage</string>
+    <string name="speakFormat">speakFormat</string>
+    <string name="ttsAudioStream">ttsAudioStream</string>
+    <string name="preferencesName">SpeakMessageServicePrefs</string>
+    
+    <string name="notts">You do not have the TTS library installed - Speak Message Service can not read out your messages until you install it.</string>
+    
+    <string name="announce_sep">says</string>
+    
+    <string name="backend_url">newtifry.appspot.com</string>
+</resources>

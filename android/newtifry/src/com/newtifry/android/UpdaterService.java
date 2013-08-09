@@ -1,0 +1,222 @@
+/**
+ * Newtifry for Android.
+ * 
+ * Copyright 2011 Daniel Foote
+ *
+ * Licensed under the Apache License, Version 2.0 (the 'License');
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an 'AS IS' BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.newtifry.android;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONException;
+
+import com.newtifry.android.database.NewtifryAccount;
+import com.newtifry.android.database.NewtifrySource;
+import com.newtifry.android.remote.BackendRequest;
+import com.newtifry.android.remote.BackendResponse;
+import static com.newtifry.android.CommonUtilities.TAG;
+
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+//import android.os.PowerManager;
+import android.util.Log;
+
+public class UpdaterService extends Service
+{
+	private UpdaterService thisService = this;
+//	private PowerManager.WakeLock wakelock = null;
+	
+	@Override
+	public IBinder onBind( Intent arg0 )
+	{
+		return null;
+	}
+	
+	public void onCreate()
+	{
+		super.onCreate();
+	}
+
+	public void onStart( Intent intent, int startId )
+	{
+		super.onStart(intent, startId);
+		
+		// Null intent? Weird, but deal with it.
+		if( intent == null )
+		{
+			return;
+		}
+		
+		// Fetch a wakelock if we don't already have one.
+		// TODO: This is disabled until I can figure out the "under locked" exception.
+		/*if( this.wakelock == null )
+		{
+			PowerManager manager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+			this.wakelock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+			this.wakelock.acquire(60000); // Max 60 seconds.
+		}*/
+		
+		// We need to make some kind of backend request.
+		String type = intent.getExtras().getString("type");
+		
+		if( type.equals("registration") )
+		{
+			// We want to update our registration key with the server.
+			// Get a list of accounts. We need to send it to any enabled ones on the backend.
+			ArrayList<NewtifryAccount> accounts = NewtifryAccount.FACTORY.listAll(this); 
+			
+			String newRegistration = intent.getExtras().getString("registration");
+
+			// TODO: Notify the user if this fails.
+			for( NewtifryAccount account: accounts )
+			{
+				if( account.getEnabled() )
+				{
+					HashMap<String, Object> metadata = new HashMap<String, Object>();
+					metadata.put("account", account);
+					metadata.put("operation", "register");
+					metadata.put("registration", newRegistration);
+					account.registerWithBackend(this, newRegistration, true, null, handler, metadata);
+				}
+			}
+		}
+		else if( type.equals("sourcechange") )
+		{
+			// Somewhere, a source has changed or been added. We should pull down a local one.
+			Long serverSourceId = intent.getLongExtra("sourceId", 0);
+			Long serverDeviceId = intent.getLongExtra("deviceId", 0);
+			
+			BackendRequest request = new BackendRequest("/sources/get");
+			request.add("id", serverSourceId.toString());
+			request.addMeta("operation", "updatedSource");
+			request.addMeta("context", this);
+			request.addMeta("source_id", serverSourceId);
+			request.addMeta("account_id", serverDeviceId);
+		
+			// Where to come back when we're done.
+			request.setHandler(handler);
+			
+			NewtifryAccount account = NewtifryAccount.FACTORY.getByServerId(this, serverDeviceId); 
+
+			// Start a thread to make the request.
+			// But if there was no account to match that device, don't bother.
+			if( account != null )
+			{
+				request.startInThread(this, null, account.getAccountName());
+			}			
+		}
+	}
+
+	/**
+	 * Private handler class that is the callback for when the external requests
+	 * are complete.
+	 */
+	private Handler handler = new Handler()
+	{
+		@Override
+		public void handleMessage( Message msg )
+		{
+			// Fetch out the response.
+			BackendResponse response = (BackendResponse) msg.obj;
+
+			// Was it successful?
+			if( response.isError() )
+			{
+				// No, not successful.
+				Log.e(TAG, "Error getting remote request: " + response.getError());
+			}
+			else
+			{
+				try
+				{
+					// Fetch out metadata.
+					BackendRequest request = response.getRequest();
+					String operation = (String) request.getMeta("operation");
+
+					// Determine our operation.
+					if( operation.equals("updatedSource") )
+					{
+						// We were fetching a new or updated source from the server.
+						// Open the database and save it.
+						
+						Long accountId = (Long) request.getMeta("account_id");
+						NewtifryAccount account = NewtifryAccount.FACTORY.getByServerId(thisService, accountId);
+						
+						Long sourceId = (Long) request.getMeta("source_id");
+						
+						// Try and get an existing source from our database.
+						NewtifrySource source = NewtifrySource.FACTORY.getByServerId(thisService, sourceId);
+						if( source == null )
+						{
+							// New object!
+							source = new NewtifrySource();
+							source.setLocalEnabled(true); // Enabled by default.
+						}
+						
+						// The server would have given us a complete source object.
+						source.fromJSONObject(response.getJSON().getJSONObject("source"));
+						source.setAccountName(account.getAccountName());
+
+						source.save(thisService);
+						
+						Log.d(TAG, "Created/updated source based on server request: local " + source.getId() + " remote: " + sourceId);
+					}
+					else if( operation.equals("register") )
+					{
+						// Register complete. Record the registration key and server ID.
+						NewtifryAccount oldAccount = (NewtifryAccount) request.getMeta("account");
+						NewtifryAccount account = NewtifryAccount.FACTORY.get(thisService, oldAccount.getId());
+						
+						// Set the ID.
+						account.setServerRegistrationId(Long.parseLong(response.getJSON().getJSONObject("device").getString("id")));
+						
+						// Enable the account.
+						account.setEnabled(true);
+						
+						// We need a refresh.
+						account.setRequiresSync(true);
+						
+						// Store the registration ID.
+						account.setLastC2DMId((String) request.getMeta("registration"));
+						
+						// Persist.
+						account.save(thisService);
+					}
+				}
+				catch( JSONException e )
+				{
+					// The response doesn't look like we expected.
+					Log.d(TAG, "Invalid response from server: " + e.getMessage());
+					// And now we've failed. Now what?
+				}
+			}
+			
+			// Release the wakelock. Rather important!
+			/*if( thisService.wakelock != null )
+			{
+				if( thisService.wakelock.isHeld() )
+				{
+					thisService.wakelock.release();
+					thisService.wakelock = null;
+				}
+			}*/
+		}
+	};	
+}

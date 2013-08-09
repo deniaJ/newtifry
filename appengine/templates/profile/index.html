@@ -1,0 +1,65 @@
+<%inherit file="../layout/layout.html" />
+<h2>Sources <span class="inline_button"><a href="/sources/create">+ create new source</a></span></h2>
+
+<table class="details">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Enabled</th>
+			<th>Key</th>
+			<th>Messages</th>
+			<th>Test</th>
+			<th>Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		% for i, source in enumerate(sources):
+			<tr class="${i%2 and 'odd' or 'even'}">
+				<td><a href="/sources/edit?id=${source.key().id()}">${source.title|h}</a></td>
+				<td>
+					% if source.enabled:
+						<span class="enabled">Enabled</span>
+					% else:
+						<span class="disabled">DISABLED</span>
+					% endif
+				</td>
+				<td><span class="source_key">${source.externalKey|h}</span></td>
+				<td><a href="/messages/?sid=${source.key().id()}">Messages</a></td>
+				<td><a href="/sources/test?id=${source.key().id()}">Test</a></td>
+				<td><a href="/sources/delete?id=${source.key().id()}">Delete</a></td>
+			</tr>
+		% endfor
+	</tbody>
+</table>
+
+<p class="important_note"><span class="important_note_title">PLEASE NOTE...</span>
+the key above is what you give to your system administrator so they can send messages
+to that source. You can not change the key once the system has generated it, so be careful
+who you share that source with. You can always locally disable the key if needed.</p>
+
+<h2>Devices</h2>
+
+<table class="details">
+	<thead>
+		<tr>
+			<th>Type</th>
+			<th>Name</th>
+			<th>Hash</th>
+			<th>Newtifry Version</th>
+			<th>Last Update</th>
+			<th>Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		% for i, device in enumerate(devices):
+			<tr class="${i%2 and 'odd' or 'even'}">
+				<td>${device.deviceType|h}</td>
+				<td>${device.deviceNickname|h}</td>
+				<td>${device.hash()}</td>
+				<td>${device.deviceVersion|h}</td>
+				<td>${device.updated.strftime(dateformat)}</td>
+				<td><a href="/devices/delete?id=${device.key().id()}">Delete</a></td>
+			</tr>
+		% endfor
+	</tbody>
+</table>

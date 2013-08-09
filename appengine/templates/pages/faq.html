@@ -1,0 +1,36 @@
+<%inherit file="../layout/layout.html" />
+<h1>Frequently Asked Questions</h1>
+
+<h2>Is there an iOS version?</h2>
+
+<p>No, not currently. You're welcome to write one. The server side code should have more than enough
+	hooks to be able to code in support for an iOS version. None of the development team own
+	any Apple hardware, so there has been no incentive to write one at this time.</p>
+
+<h2>Why can't I see messages from more than 24 hours ago?</h2>
+
+<p>All messages older than 24 hours are automatically deleted from the system. Notifry is only intended
+	to let users know something is wrong. It's not intended to be a historical reference for notifications.
+	Please use the normal systems you would use in your own systems to record a permanent record of
+	notifications; for example, email.</p>
+
+<h2>Can I run my own Newtifry?</h2>
+
+<p>Yes, you can. All the code is under an Apache2 licence. So you could checkout and build your
+	own version of the system.</p>
+
+<p>See the <a href="https://github.com/thunderace/newtifry">Notifry Github repository</a> which has the full source code available.
+	You will need your own Google authentication details and GCM signup to be able to send notifications to a phone.</p>
+
+<h2>I've found a bug, who should I tell? Or, I want a new feature?</h2>
+
+<p>Lodge an issue in the <a href="https://github.com/thunderace/newtifry/issues">Notifry issue tracker</a>.</a>
+
+<h2>I backed up Newtifry with a third party tool, and restored it to a new phone, and now I don't get notifications?</h2>
+
+<p>Newtifry stores the phone's GCM ID in the settings. If you restore the settings onto a new
+	phone, it will have the GCM ID for the old phone, and as such, you won't get any notifications
+	delivered to your phone.</p>
+
+<p>Newtifry deliberately doesn't use the cloud backup service for this reason. Please don't
+	use third party backup programs to backup and restore Newtifry.</p>

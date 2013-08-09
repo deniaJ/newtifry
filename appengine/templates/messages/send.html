@@ -1,0 +1,12 @@
+<%inherit file="../layout/layout.html" />
+
+<h1>Newtifry - send message</h1>
+
+% if error:
+	<p>${error}</p>
+	% if messages > 0:
+		<p>Additionally, ${messages} sent successfully with size ${size}.</p>
+	% endif
+% else:
+	<p>Sent successfully. Sent ${messages} with size ${size}.</p>
+% endif

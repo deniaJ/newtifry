@@ -1,0 +1,34 @@
+application: newtifry
+version: 46
+runtime: python27
+api_version: 1
+threadsafe: no
+
+builtins:
+#- datastore_admin: on
+- deferred: on
+- remote_api: on
+
+handlers:
+- url: /(favicon\.ico)
+  static_files: static/\1
+  upload: /(favicon\.ico)
+- url: /(apple-touch-icon\.png)
+  static_files: static/\1
+  upload: /(apple-touch-icon\.png)
+- url: /static
+  static_dir: static
+  secure: always
+- url: /admin/.*
+  script: admin.py
+  login: admin
+  secure: always
+- url: /cron/.*
+  script: cron.py
+  login: admin
+- url: /newtifry
+  script: index.py
+  secure: optional
+- url: /.*
+  script: index.py
+  secure: always

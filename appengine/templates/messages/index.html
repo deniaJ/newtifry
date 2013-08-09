@@ -1,0 +1,55 @@
+<%inherit file="../layout/layout.html" />
+
+<h1>Recent Messages</h1>
+
+<p class="important_note">Please note that all times displayed are in UTC.</p>
+
+<form method="get" action="">
+	Filter by source: <select name="sid">
+		<option value="">All sources</option>
+		% for source in sources:
+			<%
+			selected = ""
+			if filtersource and filtersource.externalKey == source.externalKey:
+				selected = 'selected="selected"'
+			%>
+			<option value="${source.key().id()|h}" ${selected}>${source.title|h}</option>
+		% endfor
+	</select>
+	<input type="submit" value="Filter" />
+</form>
+
+<p>&nbsp;</p>
+
+<table class="details messages">
+	<thead>
+		<tr>
+			<th>Time</th>
+			<th>Title</th>
+			<th>Source</th>
+			<th>Size</th>
+		</tr>
+	</thead>
+	<tbody>
+		% for i, message in enumerate(messages):
+			% if message:
+				<tr class="message_header_row ${i%2 and 'odd' or 'even'}">
+					<td>${message.timestamp.strftime(dateformat)}</td>
+					<td>${message.title|h}</td>
+					<td>${message.source.title|h}</td>
+					<td>${message.getsize()}</td>
+				</tr>
+				% if message.url:
+				<tr class="message_url_row ${i%2 and 'odd' or 'even'}">
+					<td colspan="4"><a href="${message.url|h}">${message.url|h}</a></td>
+				</tr>
+				% endif
+				<tr class="message_content_row ${i%2 and 'odd' or 'even'}">
+					<td colspan="4">
+						<pre>${message.message|h}</pre>
+					</td>
+				</tr>
+			% endif
+		% endfor
+	</tbody>
+</table>
